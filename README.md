@@ -1,2 +1,2 @@
-# Practice Website
- Prepare for HTML/CSS
+# <3
+ Prepare for HTML/CSS project for SSG course
