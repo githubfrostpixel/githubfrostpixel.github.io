@@ -412,13 +412,14 @@ input[type=submit]
 {
     font-size: 100%;
     border-radius: 5px;
-    padding: 5px 50px;
+    /* padding: 5px 50px; */
     width: 60%;
     left:20%;
     font-family: 'nogamenolifedisplay',sans-serif;
 }
 input[type=text], input[type=email], textarea
 {
+    color:white;
     width: 80%;
     font-size: 100%;
     font-family: 'nogamenolifedisplay',sans-serif;
