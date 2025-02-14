@@ -18,15 +18,23 @@
     <!-- Image Viewer Section -->
     <div class="container mt-2">
         <div class="d-flex justify-content-center">
-        <div class="input-group" style="max-width: 500px;">
-            <input type="text" id="cdn-url" class="form-control" placeholder="Enter CDN URL" aria-label="CDN">
-            <button class="btn btn-dark" id="view-image-btn" type="button">Go</button>
+            <div class="input-group" style="max-width: 500px;">
+                <input type="text" id="cdn-url" class="form-control" placeholder="Enter CDN URL" aria-label="CDN">
+                <button class="btn btn-dark" id="view-image-btn" type="button">Go</button>
+            </div>
+            
         </div>
-        </div>
+    </div>
+    
+    
+
+     <!-- Image Display Section -->
+     <div class="container mt-2 d-flex justify-content-center px-1">
+        <img id="image-display" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
     </div>
 
     <!-- Pagination Section -->
-    <div class="container mt-2 ">
+    <div class="container my-2 ">
         <div class="d-flex justify-content-center align-items-center">
 
         <button class="btn btn-dark me-3" id="first-btn">
@@ -49,12 +57,6 @@
             <i class="fa-solid fa-angles-right"></i>
         </button>
         </div>
-    </div>
-
-
-        <!-- Image Display Section -->
-    <div class="container mt-2 d-flex justify-content-center px-1">
-        <img id="image-display" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
     </div>
 
     <script>
@@ -138,7 +140,7 @@
             nextBtn.addEventListener('click', () => navigateToPage(currentPage + 1));
             lastBtn.addEventListener('click', () => navigateToPage(maxPage));
         });
-        </script>
+    </script>
 
     <script>
     // Dynamically load the navbar
