@@ -1,2 +1,2 @@
-# <3
- Prepare for HTML/CSS project for SSG course
+# Random Utility Page
+Reader: Manga CDN reader

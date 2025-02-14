@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reader</title>
+    <link rel="icon" href="crown.ico" type="image/x-icon">
     <style>
         #image-display {
           max-width: 1080px;
@@ -21,6 +22,7 @@
             <div class="input-group" style="max-width: 500px;">
                 <input type="text" id="cdn-url" class="form-control" placeholder="Enter CDN URL" aria-label="CDN">
                 <button class="btn btn-dark" id="view-image-btn" type="button">Go</button>
+                <a class="btn btn-dark mx-2" href="" target="_blank" type="button">Clone Reader</a>
             </div>
             
         </div>
@@ -96,20 +98,29 @@
                 }
         
                 const url = `${baseUrl}${targetPage}${extension}`;
-                const testImage = new Image();
-                
-                testImage.onload = () => {
-                    currentPage = targetPage;
-                    if (targetPage > maxPage) maxPage = targetPage;
+                if(targetPage <= maxPage){
+                    currentPage = targetPage
                     imageDisplay.src = url;
                     updatePageDisplay();
-                };
+                } else {
+                    const testImage = new Image();
+                
+                    testImage.onload = () => {
+                        currentPage = targetPage;
+                        if (targetPage > maxPage) maxPage = targetPage;
+                        imageDisplay.src = url;
+                        updatePageDisplay();
+                    };
+            
+                    testImage.onerror = () => {
+                        alert('Page does not exist');
+                    };
+
+                    testImage.src = url;
+                }
+                
         
-                testImage.onerror = () => {
-                    alert('Page does not exist');
-                };
-        
-                testImage.src = url;
+
             }
         
             viewImageBtn.addEventListener('click', () => {
