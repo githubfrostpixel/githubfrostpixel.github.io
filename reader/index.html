@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reader</title>
+    <style>
+        #image-display {
+          max-width: 1080px;
+          width: 100%;
+          height: auto;
+        }
+      </style>
+</head>
+<body>
+    <div id="navbar"></div>
+
+    <!-- Image Viewer Section -->
+    <div class="container mt-2">
+        <div class="d-flex justify-content-center">
+        <div class="input-group" style="max-width: 500px;">
+            <input type="text" id="cdn-url" class="form-control" placeholder="Enter CDN URL" aria-label="CDN">
+            <button class="btn btn-dark" id="view-image-btn" type="button">Go</button>
+        </div>
+        </div>
+    </div>
+
+    <!-- Pagination Section -->
+    <div class="container mt-2 ">
+        <div class="d-flex justify-content-center align-items-center">
+
+        <button class="btn btn-dark me-3" id="first-btn">
+            <i class="fa-solid fa-angles-left"></i>
+        </button>
+
+        <button class="btn btn-dark me-3" id="prev-btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+
+        <!-- Current Page / Max Page Display -->
+        <span id="page-display" class="mx-3"></span>
+
+
+        <button class="btn btn-dark me-3" id="next-btn">
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+        <button class="btn btn-dark" id="last-btn">
+            <i class="fa-solid fa-angles-right"></i>
+        </button>
+        </div>
+    </div>
+
+
+        <!-- Image Display Section -->
+    <div class="container mt-2 d-flex justify-content-center px-1">
+        <img id="image-display" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cdnUrlInput = document.getElementById('cdn-url');
+            const viewImageBtn = document.getElementById('view-image-btn');
+            const imageDisplay = document.getElementById('image-display');
+            const pageDisplay = document.getElementById('page-display');
+            const firstBtn = document.getElementById('first-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const lastBtn = document.getElementById('last-btn');
+        
+            let currentPage = 1;
+            let maxPage = 1;
+            let baseUrl = '';
+            let extension = '';
+        
+            function parseUrl(url) {
+                const match = url.match(/(\d+)(\.\w+)$/);
+                if (!match) return null;
+                return {
+                    base: url.replace(match[0], ''),
+                    page: parseInt(match[1], 10),
+                    ext: match[2]
+                };
+            }
+        
+            function updatePageDisplay() {
+                pageDisplay.textContent = `${currentPage} / ${maxPage}`;
+            }
+        
+            function navigateToPage(targetPage) {
+                if (targetPage < 1) {
+                    alert('Already at the first page');
+                    return;
+                }
+        
+                const url = `${baseUrl}${targetPage}${extension}`;
+                const testImage = new Image();
+                
+                testImage.onload = () => {
+                    currentPage = targetPage;
+                    if (targetPage > maxPage) maxPage = targetPage;
+                    imageDisplay.src = url;
+                    updatePageDisplay();
+                };
+        
+                testImage.onerror = () => {
+                    alert('Page does not exist');
+                };
+        
+                testImage.src = url;
+            }
+        
+            viewImageBtn.addEventListener('click', () => {
+                const url = cdnUrlInput.value.trim();
+                if (!url) return;
+        
+                const parsed = parseUrl(url);
+                if (!parsed) {
+                    alert('Invalid URL format');
+                    return;
+                }
+        
+                const testImage = new Image();
+                testImage.onload = () => {
+                    baseUrl = parsed.base;
+                    currentPage = parsed.page;
+                    maxPage = parsed.page;
+                    extension = parsed.ext;
+                    imageDisplay.src = url;
+                    updatePageDisplay();
+                };
+                testImage.onerror = () => alert('Image not found');
+                testImage.src = url;
+            });
+        
+            firstBtn.addEventListener('click', () => navigateToPage(1));
+            prevBtn.addEventListener('click', () => navigateToPage(currentPage - 1));
+            nextBtn.addEventListener('click', () => navigateToPage(currentPage + 1));
+            lastBtn.addEventListener('click', () => navigateToPage(maxPage));
+        });
+        </script>
+
+    <script>
+    // Dynamically load the navbar
+        fetch('/common/navbar.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('navbar').innerHTML = data)
+        .catch(error => console.error('Error loading navbar:', error));
+    </script>
+</body>
+</html>
