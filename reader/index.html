@@ -24,7 +24,10 @@
                 <button class="btn btn-dark" id="view-image-btn" type="button">Go</button>
                 <a class="btn btn-dark mx-2" href="" target="_blank" type="button">Clone Reader</a>
             </div>
-            
+            <!-- Loading Spinner (Hidden by default) -->
+            <div class="spinner-border mx-2" role="status" style="display: none;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
         </div>
     </div>
     
@@ -33,6 +36,8 @@
      <!-- Image Display Section -->
      <div class="container mt-2 d-flex justify-content-center px-1">
         <img id="image-display" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+        <!-- Overlay for click detection -->
+        <!-- <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; cursor: pointer;"></div> -->
     </div>
 
     <!-- Pagination Section -->
@@ -71,12 +76,29 @@
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
             const lastBtn = document.getElementById('last-btn');
-        
+
             let currentPage = 1;
             let maxPage = 1;
             let baseUrl = '';
             let extension = '';
-        
+            
+            // Event listener for clicks on the overlay
+            imageDisplay.addEventListener('click', function(event) {
+                const imageWidth = imageDisplay.offsetWidth;
+
+                // Calculate the click position relative to the image width
+                const clickPosition = event.clientX - imageDisplay.getBoundingClientRect().left;
+
+                // If click is in the left 20% of the image, go to the previous page
+                if (clickPosition < imageWidth * 0.2) {
+                    navigateToPage(currentPage - 1);  // Handle navigation to the previous page
+                }
+                // If click is in the right 80% of the image, go to the next page
+                else if (clickPosition > imageWidth * 0.2) {
+                    navigateToPage(currentPage + 1);  // Handle navigation to the next page
+                }
+            });
+            
             function parseUrl(url) {
                 const match = url.match(/(\d+)(\.\w+)$/);
                 if (!match) return null;
@@ -91,36 +113,51 @@
                 pageDisplay.textContent = `${currentPage} / ${maxPage}`;
             }
         
-            function navigateToPage(targetPage) {
+            async function navigateToPage(targetPage) {
                 if (targetPage < 1) {
-                    alert('Already at the first page');
                     return;
                 }
-        
+
                 const url = `${baseUrl}${targetPage}${extension}`;
-                if(targetPage <= maxPage){
-                    currentPage = targetPage
+                
+                // Show the loading spinner before the image starts loading
+                const spinner = document.querySelector('.spinner-border');
+                spinner.style.display = 'inline-block'; // Show the spinner
+
+                if (targetPage <= maxPage) {
+                    currentPage = targetPage;
                     imageDisplay.src = url;
                     updatePageDisplay();
                 } else {
-                    const testImage = new Image();
-                
-                    testImage.onload = () => {
+                    try {
+                        // Create a new image instance to check if the image exists
+                        const testImage = new Image();
+
+                        // Wait for the image to load
+                        await loadImage(testImage, url);
+
                         currentPage = targetPage;
                         if (targetPage > maxPage) maxPage = targetPage;
+
+                        // Image is loaded, update the image display
                         imageDisplay.src = url;
                         updatePageDisplay();
-                    };
-            
-                    testImage.onerror = () => {
+                    } catch (error) {
                         alert('Page does not exist');
-                    };
-
-                    testImage.src = url;
+                    }
                 }
-                
-        
 
+                // Hide the spinner after the image has loaded
+                spinner.style.display = 'none'; // Hide the spinner
+            }
+
+            // Helper function to return a Promise for image loading
+            function loadImage(img, src) {
+                return new Promise((resolve, reject) => {
+                    img.onload = resolve;   // Resolve the promise when the image loads
+                    img.onerror = reject;   // Reject the promise if the image fails to load
+                    img.src = src;
+                });
             }
         
             viewImageBtn.addEventListener('click', () => {
@@ -150,6 +187,26 @@
             prevBtn.addEventListener('click', () => navigateToPage(currentPage - 1));
             nextBtn.addEventListener('click', () => navigateToPage(currentPage + 1));
             lastBtn.addEventListener('click', () => navigateToPage(maxPage));
+
+            // Event listener for clicks on the overlay
+            overlay.addEventListener('click', function(event) {
+                // Get the width of the image
+                const imageWidth = imageDisplay.offsetWidth;
+
+                // Calculate the click position relative to the image width
+                const clickPosition = event.clientX - imageDisplay.getBoundingClientRect().left;
+
+                // If click is in the left 20% of the image, go to the previous page
+                if (clickPosition < imageWidth * 0.2) {
+                    navigateToPage(currentPage - 1);  // Handle navigation to the previous page
+                }
+                // If click is in the right 80% of the image, go to the next page
+                else if (clickPosition > imageWidth * 0.2) {
+                    navigateToPage(currentPage + 1);  // Handle navigation to the next page
+                }
+            });
+            
+            
         });
     </script>
 
