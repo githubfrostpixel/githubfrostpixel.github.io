@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuIcon, CloseIcon, GithubIcon, LinkedinIcon, LeetcodeIcon } from '../ui/Icons';
+import { MenuIcon, CloseIcon, GithubIcon, LinkedinIcon, LeetcodeIcon, SnowIcon } from '../ui/Icons';
 import { socialLinks } from '../../data/social';
 
 const navItems = [
@@ -43,9 +43,10 @@ export function Navbar({ transparent = false }: NavbarProps) {
           {/* Logo */}
           <Link
             to="/"
-            className="text-xl font-bold text-cyan-400 hover:text-cyan-300 transition-colors"
+            className="text-white hover:text-cyan-300 transition-colors"
+            aria-label="Home"
           >
-            FROSTPIXEL
+            <SnowIcon className="w-8 h-8" />
           </Link>
 
           {/* Desktop Navigation */}

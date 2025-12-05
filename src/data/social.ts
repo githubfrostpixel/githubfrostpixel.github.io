@@ -9,19 +9,19 @@ export const socialLinks: SocialLink[] = [
   {
     id: 'github',
     name: 'GitHub',
-    url: 'https://github.com/yourusername',
+    url: 'https://github.com/githubfrostpixel',
     icon: 'github',
   },
   {
     id: 'linkedin',
     name: 'LinkedIn',
-    url: 'https://linkedin.com/in/yourusername',
+    url: 'https://linkedin.com/in/bachngocminhchau',
     icon: 'linkedin',
   },
   {
     id: 'leetcode',
     name: 'LeetCode',
-    url: 'https://leetcode.com/yourusername',
+    url: 'https://leetcode.com/u/githubfrostpixel/',
     icon: 'leetcode',
   },
 ];

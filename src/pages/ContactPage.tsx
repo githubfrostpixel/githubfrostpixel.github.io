@@ -37,10 +37,10 @@ export function ContactPage() {
             <div className="bg-[#12121a] rounded-xl p-6 border border-slate-800 hover:border-cyan-500/30 transition-colors">
               <h3 className="text-lg font-semibold text-slate-100 mb-2">Email</h3>
               <a
-                href="mailto:your.email@example.com"
+                href="mailto:bachngocminhchau@gmail.com"
                 className="text-cyan-400 hover:text-cyan-300 transition-colors"
               >
-                your.email@example.com
+                bachngocminhchau@gmail.com
               </a>
               <p className="text-sm text-slate-500 mt-2">
                 Best way to reach me for professional inquiries.
@@ -50,7 +50,7 @@ export function ContactPage() {
             {/* Location */}
             <div className="bg-[#12121a] rounded-xl p-6 border border-slate-800">
               <h3 className="text-lg font-semibold text-slate-100 mb-2">Location</h3>
-              <p className="text-slate-400">[Your City, Country]</p>
+              <p className="text-slate-400">Ha Noi, Viet Nam</p>
               <p className="text-sm text-slate-500 mt-2">
                 Open to remote opportunities worldwide.
               </p>
