@@ -1,0 +1,3 @@
+[submodule "buriedtown"]
+	path = buriedtown
+	url = https://github.com/githubfrostpixel/buried-city-web.git
